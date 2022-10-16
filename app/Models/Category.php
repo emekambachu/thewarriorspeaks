@@ -1,19 +1,14 @@
 <?php
 
-namespace App\Models\Author;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AuthorBio extends Model
+class Category extends Model
 {
     use HasFactory;
     protected $fillable = [
-      'name',
-      'title',
-      'occupation',
-      'description',
-      'email',
-      'mobile',
+        'name'
     ];
 }

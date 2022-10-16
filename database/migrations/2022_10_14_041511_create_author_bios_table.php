@@ -13,8 +13,14 @@ class CreateAuthorBiosTable extends Migration
      */
     public function up()
     {
-        Schema::create('author_bios', function (Blueprint $table) {
+        Schema::create('author_bios', static function (Blueprint $table) {
             $table->id();
+            $table->string('name')->nullable();
+            $table->string('title')->nullable();
+            $table->string('occupation')->nullable();
+            $table->string('description')->nullable();
+            $table->string('email')->nullable();
+            $table->string('mobile')->nullable();
             $table->timestamps();
         });
     }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAuthorSocialsTable extends Migration
+class CreateBlogCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class CreateAuthorSocialsTable extends Migration
      */
     public function up()
     {
-        Schema::create('author_socials', static function (Blueprint $table) {
+        Schema::create('blog_comments', static function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('blog_post_id');
+            $table->string('ip')->nullable();
+            $table->string('name');
+            $table->longText('comment');
             $table->timestamps();
         });
     }
@@ -26,6 +30,6 @@ class CreateAuthorSocialsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('author_socials');
+        Schema::dropIfExists('blog_comments');
     }
 }

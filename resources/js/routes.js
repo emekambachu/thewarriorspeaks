@@ -1,9 +1,12 @@
 import { createWebHistory, createRouter } from "vue-router";
 import NotFound from './components/NotFound';
 import AdminDashboard from './components/admin/AdminDashboard';
-// import AdminContestants from "./components/Admin/Contestants/AdminContestants";
-// import AdminContestantForm from "./components/Admin/Contestants/AdminContestantForm";
-// import AdminPayments from "./components/Admin/Payments/AdminPayments";
+import AdminBlog from "./components/admin/blog/AdminBlog";
+import AdminBlogForm from "./components/admin/blog/AdminBlogForm";
+import AdminPodcast from "./components/admin/podcast/AdminPodcast";
+import AdminPodcastForm from "./components/admin/podcast/AdminPodcastForm";
+import AdminAuthor from "./components/admin/author/AdminAuthor";
+import AdminAuthorForm from "./components/admin/author/AdminAuthorForm";
 
 
 const routes = [
@@ -30,57 +33,109 @@ const routes = [
         }
     },
 
-    // {
-    //     path: '/admin/contestants',
-    //     name: "AdminContestants",
-    //     component: AdminContestants,
-    //     beforeEnter: (to, from, next) => {
-    //         axios.get('/api/admin/authenticate').then(() => {
-    //             next()
-    //         }).catch(() => {
-    //             window.location.href = '/login';
-    //         });
-    //     }
-    // },
-    //
-    // {
-    //     path: '/admin/contestant/add',
-    //     name: "AdminAddContestant",
-    //     component: AdminContestantForm,
-    //     beforeEnter: (to, from, next) => {
-    //         axios.get('/api/admin/authenticate').then(() => {
-    //             next()
-    //         }).catch(() => {
-    //             window.location.href = '/login';
-    //         });
-    //     }
-    // },
-    //
-    // {
-    //     path: '/admin/contestant/:id/edit',
-    //     name: "AdminEditContestant",
-    //     component: AdminContestantForm,
-    //     beforeEnter: (to, from, next) => {
-    //         axios.get('/api/admin/authenticate').then(() => {
-    //             next()
-    //         }).catch(() => {
-    //             window.location.href = '/login';
-    //         });
-    //     }
-    // },
-    //
-    // {
-    //     path: '/admin/payments',
-    //     name: "AdminPayments",
-    //     component: AdminPayments,
-    //     beforeEnter: (to, from, next) => {
-    //         axios.get('/api/admin/authenticate').then(() => {
-    //             next()
-    //         }).catch(() => {
-    //             window.location.href = '/login';
-    //         });
-    //     }
-    // },
+    {
+        path: '/admin/podcast',
+        name: "AdminPodcast",
+        component: AdminPodcast,
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/admin/authenticate').then(() => {
+                next()
+            }).catch(() => {
+                window.location.href = '/login';
+            });
+        }
+    },
+
+    {
+        path: '/admin/podcast/create',
+        name: "AdminPodcastCreate",
+        component: AdminPodcastForm,
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/admin/authenticate').then(() => {
+                next()
+            }).catch(() => {
+                window.location.href = '/login';
+            });
+        }
+    },
+
+    {
+        path: '/admin/podcast/:id/edit',
+        name: "AdminPodcastEdit",
+        component: AdminPodcastForm,
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/admin/authenticate').then(() => {
+                next()
+            }).catch(() => {
+                window.location.href = '/login';
+            });
+        }
+    },
+
+    {
+        path: '/admin/blog',
+        name: "AdminBlog",
+        component: AdminBlog,
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/admin/authenticate').then(() => {
+                next()
+            }).catch(() => {
+                window.location.href = '/login';
+            });
+        }
+    },
+
+    {
+        path: '/admin/blog/create',
+        name: "AdminBlogCreate",
+        component: AdminBlogForm,
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/admin/authenticate').then(() => {
+                next()
+            }).catch(() => {
+                window.location.href = '/login';
+            });
+        }
+    },
+
+    {
+        path: '/admin/blog/:id/edit',
+        name: "AdminBlogEdit",
+        component: AdminBlogForm,
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/admin/authenticate').then(() => {
+                next()
+            }).catch(() => {
+                window.location.href = '/login';
+            });
+        }
+    },
+
+    {
+        path: '/admin/author',
+        name: "AdminAuthor",
+        component: AdminAuthor,
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/admin/authenticate').then(() => {
+                next()
+            }).catch(() => {
+                window.location.href = '/login';
+            });
+        }
+    },
+
+    {
+        path: '/admin/author/edit',
+        name: "AdminAuthorEdit",
+        component: AdminAuthorForm,
+        beforeEnter: (to, from, next) => {
+            axios.get('/api/admin/authenticate').then(() => {
+                next()
+            }).catch(() => {
+                window.location.href = '/login';
+            });
+        }
+    },
 
     {
         path: '/admin/logout',
@@ -92,22 +147,10 @@ const routes = [
         }
     },
 
-    // {
-    //     path: '/account/dashboard',
-    //     name: "AccountDashboard",
-    //     component: Dashboard,
-    //     beforeEnter: (to, from, next) => {
-    //         axios.get('/api/authenticated').then(() => {
-    //             next()
-    //         }).catch(() => {
-    //             return next({ name: 'Login' })
-    //         });
-    //     }
-    // },
 ];
 
 const router = createRouter({
-    linkExactActiveClass: 'text-dark font-weight-bold',
+    linkExactActiveClass: 'router-link-active text-light font-weight-bold waves-effect',
     history: createWebHistory(),
     routes,
 });

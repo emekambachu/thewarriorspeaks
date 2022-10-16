@@ -28,19 +28,20 @@ window.Swal = Swal;
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-// Home Contestants
-import AdminLogin from "./components/auth/AdminLogin";
+// Home
 
-// Home Contestants
-// import HomeContestants from "./components/home/HomeContestants";
-// import HomeContestantShow from "./components/home/HomeContestantShow";
+// Home Admin Login
+import AdminLogin from "./components/auth/AdminLogin";
 
 // Admin Dashboard
 import NotFound from './components/NotFound';
 import AdminDashboard from './components/admin/AdminDashboard';
-// import AdminContestants from "./components/Admin/Contestants/AdminContestants";
-// import AdminContestantForm from "./components/Admin/Contestants/AdminContestantForm";
-// import AdminPayments from "./components/Admin/Payments/AdminPayments";
+import AdminPodcast from './components/admin/podcast/AdminPodcast';
+import AdminPodcastForm from './components/admin/podcast/AdminPodcastForm';
+import AdminBlog from './components/admin/blog/AdminBlog';
+import AdminBlogForm from './components/admin/blog/AdminBlogForm';
+import AdminAuthor from './components/admin/author/AdminAuthor';
+import AdminAuthorForm from './components/admin/author/AdminAuthorForm';
 
 
 
@@ -55,6 +56,13 @@ createApp({
         AdminLogin,
 
         NotFound,
-        AdminDashboard
+
+        AdminDashboard,
+        AdminPodcast,
+        AdminPodcastForm,
+        AdminBlog,
+        AdminBlogForm,
+        AdminAuthor,
+        AdminAuthorForm,
     }
 }).use(router, axios, VueAxios).mount('#app');

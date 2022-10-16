@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GithubDeploymentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -40,3 +41,6 @@ Auth::routes([
 Route::get('/admin/{any}', static function () {
     return view('admin.index');
 })->where('any', '.*');
+
+//Github Deployment
+Route::post('/github/deploy', [GithubDeploymentController::class, 'deploy']);
