@@ -30,6 +30,7 @@ window.Swal = Swal;
 
 // Home
 
+
 // Home Admin Login
 import AdminLogin from "./components/auth/AdminLogin";
 
@@ -42,8 +43,6 @@ import AdminBlog from './components/admin/blog/AdminBlog';
 import AdminBlogForm from './components/admin/blog/AdminBlogForm';
 import AdminAuthor from './components/admin/author/AdminAuthor';
 import AdminAuthorForm from './components/admin/author/AdminAuthorForm';
-
-
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

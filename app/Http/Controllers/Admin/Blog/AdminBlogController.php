@@ -15,13 +15,13 @@ class AdminBlogController extends Controller
         $this->middleware('auth:web');
     }
 
-    public function recentPosts(){
+    public function recentPosts($limit){
         try {
-            $posts = $this->blog->blogPostWithRelations()->latest()->limit(7)->get();
+            $data = $this->blog->blogPostWithRelations();
             return response()->json([
                 'success' => true,
-                'posts' => $posts,
-                'total' => $posts->total(),
+                'posts' => $data->latest()->limit($limit)->get(),
+                'total' => $data->count(),
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -47,13 +47,50 @@ class AdminBlogController extends Controller
         }
     }
 
-    public function store(AdminStorePodcastRequest $request){
+    public function publish($id): \Illuminate\Http\JsonResponse
+    {
         try {
-            $posts = $this->blog->createPost($request);
+            $data = $this->blog->publishPost($id);
             return response()->json([
                 'success' => true,
-                'posts' => $posts,
-                'total' => $posts->total(),
+                'post' => $data['item'],
+                'message' => $data['message'],
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function search(Request $request): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $posts = $this->post->searchBlogPost($request);
+            return response()->json([
+                'success' => true,
+                'posts' => $posts['posts'],
+                'total' => $posts['total'],
+                'search_values' => $posts['search_values'],
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function store(AdminStorePodcastRequest $request){
+        try {
+            $post = $this->blog->createPost($request);
+            return response()->json([
+                'success' => true,
+                'post' => $post,
+                'message' => "Created",
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -62,4 +99,51 @@ class AdminBlogController extends Controller
             ]);
         }
     }
+
+    public function show($id){
+        try {
+            $data = $this->blog->blogPostById($id);
+            return response()->json([
+                'success' => true,
+                'post' => $data
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function update(AdminStorePodcastRequest $request, $id){
+        try {
+            $data = $this->blog->updatePost($request, $id);
+            return response()->json([
+                'success' => true,
+                'post' => $data,
+                'message' => 'Updated',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function destroy($id){
+        try {
+            $data = $this->blog->deletePost($id);
+            return response()->json([
+                'success' => true,
+                'message' => 'Deleted',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
 }

@@ -3,7 +3,6 @@
 namespace App\Services\Auth;
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 
 /**
  * Class LoginService.

@@ -19,8 +19,10 @@ class CreatePodcastsTable extends Migration
             $table->string('title');
             $table->longText('image');
             $table->longText('image_path')->nullable();
-            $table->string('author');
             $table->longText('audio');
+            $table->longText('audio_path')->nullable();
+            $table->string('author');
+            $table->longText('description');
             $table->string('status');
             $table->timestamps();
         });

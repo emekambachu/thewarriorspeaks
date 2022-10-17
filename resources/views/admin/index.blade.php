@@ -127,8 +127,7 @@
                             <router-link
                                 class="waves-effect"
                                 exact
-                                :to="{ name: 'AdminDashboard'}"
-                            >
+                                :to="{ name: 'AdminDashboard'}">
                                 <i class="bx bx-chat"></i>
                                 <span key="t-dashboards">Dashboards</span>
                             </router-link>
@@ -138,8 +137,7 @@
                             <router-link
                                 class="waves-effect"
                                 exact
-                                to="{ name: 'AdminPodcast'}"
-                            >
+                                :to="{ name: 'AdminPodcast'}">
                                 <i class="bx bx-radio"></i>
                                 <span key="t-dashboards">Podcast</span>
                             </router-link>
@@ -149,7 +147,7 @@
                             <router-link
                                 class="waves-effect"
                                 exact
-                                to="{ name: 'AdminBlog'}"
+                                :to="{ name: 'AdminBlog'}"
                             >
                                 <i class="bx bx-radio"></i>
                                 <span key="t-dashboards">Blog</span>
@@ -160,7 +158,7 @@
                             <router-link
                                 class="waves-effect"
                                 exact
-                                to="{ name: 'AdminAuthor'}"
+                                :to="{ name: 'AdminAuthor'}"
                             >
                                 <i class="bx bx-radio"></i>
                                 <span key="t-dashboards">Bio</span>

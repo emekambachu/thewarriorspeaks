@@ -33,6 +33,8 @@
         "vue-paystack": "^2.0.4",
         "vue-router": "^4.0.14",
         "vue-sweetalert2": "^5.0.2",
-        "vue3-clock-countdown": "^0.0.5"
+        "vue3-clock-countdown": "^0.0.5",
+        "@ckeditor/ckeditor5-build-classic": "^34.0.0",
+        "@ckeditor/ckeditor5-vue": "^4.0.0"
     }
 }

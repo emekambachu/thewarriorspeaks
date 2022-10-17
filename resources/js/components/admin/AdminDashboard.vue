@@ -109,83 +109,22 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title mb-4">Recent Podcast</h4>
+                        <h4 class="card-title mb-4">Recent Blog</h4>
                         <div class="table-responsive">
                             <table class="table align-middle table-nowrap mb-0">
                                 <thead class="table-light">
                                     <tr>
-                                    <th style="width: 20px;">
-                                        <div class="form-check font-size-16 align-middle">
-                                            <input class="form-check-input" type="checkbox" id="transactionCheck01">
-                                            <label class="form-check-label" for="transactionCheck01"></label>
-                                        </div>
-                                    </th>
-                                    <th class="align-middle">Order ID</th>
-                                    <th class="align-middle">Billing Name</th>
-                                    <th class="align-middle">Date</th>
-                                    <th class="align-middle">Total</th>
-                                    <th class="align-middle">Payment Status</th>
-                                    <th class="align-middle">Payment Method</th>
-                                    <th class="align-middle">View Details</th>
-                                </tr>
+                                        <th class="align-middle">Post</th>
+                                        <th class="align-middle">Image</th>
+                                        <th class="align-middle">Status</th>
+                                        <th class="align-middle">Action</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check font-size-16">
-                                                <input class="form-check-input" type="checkbox" id="transactionCheck02">
-                                                <label class="form-check-label" for="transactionCheck02"></label>
-                                            </div>
-                                        </td>
-                                        <td><a href="javascript: void(0);" class="text-body fw-bold">#SK2540</a> </td>
-                                        <td>Neal Matthews</td>
-                                        <td>
-                                            07 Oct, 2019
-                                        </td>
-                                        <td>
-                                            $400
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-pill badge-soft-success font-size-11">Paid</span>
-                                        </td>
-                                        <td>
-                                            <i class="fab fa-cc-mastercard me-1"></i> Mastercard
-                                        </td>
-                                        <td>
-                                            <!-- Button trigger modal -->
-                                            <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-bs-toggle="modal" data-bs-target=".transaction-detailModal">
-                                                View Details
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check font-size-16">
-                                                <input class="form-check-input" type="checkbox" id="transactionCheck03">
-                                                <label class="form-check-label" for="transactionCheck03"></label>
-                                            </div>
-                                        </td>
-                                        <td><a href="javascript: void(0);" class="text-body fw-bold">#SK2541</a> </td>
-                                        <td>Jamal Burnett</td>
-                                        <td>
-                                            07 Oct, 2019
-                                        </td>
-                                        <td>
-                                            $380
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-pill badge-soft-danger font-size-11">Chargeback</span>
-                                        </td>
-                                        <td>
-                                            <i class="fab fa-cc-visa me-1"></i> Visa
-                                        </td>
-                                        <td>
-                                            <!-- Button trigger modal -->
-                                            <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-bs-toggle="modal" data-bs-target=".transaction-detailModal">
-                                                View Details
-                                            </button>
-                                        </td>
-                                    </tr>
+                                <admin-blog-item
+                                    v-for="(post, index) in posts"
+                                    :key="post.id" :post="post"
+                                ></admin-blog-item>
                                 </tbody>
                             </table>
                         </div>
@@ -197,83 +136,23 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title mb-4">Recent Blog</h4>
+                        <h4 class="card-title mb-4">Recent Podcast</h4>
                         <div class="table-responsive">
                             <table class="table align-middle table-nowrap mb-0">
                                 <thead class="table-light">
-                                    <tr>
-                                    <th style="width: 20px;">
-                                        <div class="form-check font-size-16 align-middle">
-                                            <input class="form-check-input" type="checkbox" id="transactionCheck01">
-                                            <label class="form-check-label" for="transactionCheck01"></label>
-                                        </div>
-                                    </th>
-                                    <th class="align-middle">Order ID</th>
-                                    <th class="align-middle">Billing Name</th>
-                                    <th class="align-middle">Date</th>
-                                    <th class="align-middle">Total</th>
-                                    <th class="align-middle">Payment Status</th>
-                                    <th class="align-middle">Payment Method</th>
-                                    <th class="align-middle">View Details</th>
+                                <tr>
+                                    <th class="align-middle">title</th>
+                                    <th class="align-middle">Image</th>
+                                    <th class="align-middle">Status</th>
+                                    <th class="align-middle">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check font-size-16">
-                                                <input class="form-check-input" type="checkbox" id="transactionCheck02">
-                                                <label class="form-check-label" for="transactionCheck02"></label>
-                                            </div>
-                                        </td>
-                                        <td><a href="javascript: void(0);" class="text-body fw-bold">#SK2540</a> </td>
-                                        <td>Neal Matthews</td>
-                                        <td>
-                                            07 Oct, 2019
-                                        </td>
-                                        <td>
-                                            $400
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-pill badge-soft-success font-size-11">Paid</span>
-                                        </td>
-                                        <td>
-                                            <i class="fab fa-cc-mastercard me-1"></i> Mastercard
-                                        </td>
-                                        <td>
-                                            <!-- Button trigger modal -->
-                                            <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-bs-toggle="modal" data-bs-target=".transaction-detailModal">
-                                                View Details
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check font-size-16">
-                                                <input class="form-check-input" type="checkbox" id="transactionCheck03">
-                                                <label class="form-check-label" for="transactionCheck03"></label>
-                                            </div>
-                                        </td>
-                                        <td><a href="javascript: void(0);" class="text-body fw-bold">#SK2541</a> </td>
-                                        <td>Jamal Burnett</td>
-                                        <td>
-                                            07 Oct, 2019
-                                        </td>
-                                        <td>
-                                            $380
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-pill badge-soft-danger font-size-11">Chargeback</span>
-                                        </td>
-                                        <td>
-                                            <i class="fab fa-cc-visa me-1"></i> Visa
-                                        </td>
-                                        <td>
-                                            <!-- Button trigger modal -->
-                                            <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-bs-toggle="modal" data-bs-target=".transaction-detailModal">
-                                                View Details
-                                            </button>
-                                        </td>
-                                    </tr>
+                                <admin-podcast-item
+                                    v-for="(podcast, index) in podcasts"
+                                    :key="podcast.id"
+                                    :podcast="podcast"
+                                ></admin-podcast-item>
                                 </tbody>
                             </table>
                         </div>
@@ -287,31 +166,123 @@
 </template>
 
 <script>
+import AdminPodcastItem from "./podcast/AdminPodcastItem";
+import AdminBlogItem from "./blog/AdminBlogItem";
 export default {
+    components: {
+        AdminBlogItem,
+        AdminPodcastItem
+    },
     data(){
         return {
-
+            posts: [],
+            total_posts: 0,
+            podcasts: [],
+            total_podcasts: 0,
         }
     },
     methods: {
-        getStats(){
-            axios.get('/api/admin/stats')
+        // getStats(){
+        //     axios.get('/api/admin/stats')
+        //         .then((response) => {
+        //             if(response.data.success === true){
+        //                 this.total_contestants = response.data.total_contestants;
+        //                 this.total_payers = response.data.total_payers;
+        //                 this.sum_votes = response.data.sum_votes;
+        //                 this.sum_completed_payments = response.data.sum_completed_payments;
+        //             }else{
+        //                 console.log(response.data.message);
+        //             }
+        //         }).catch((error) => {
+        //             console.log(error);
+        //         });
+        // },
+
+        recentBlogPosts(limit = 5){
+            axios.get('/api/admin/blog/posts/'+limit+'/recent')
                 .then((response) => {
                     if(response.data.success === true){
-                        this.total_contestants = response.data.total_contestants;
-                        this.total_payers = response.data.total_payers;
-                        this.sum_votes = response.data.sum_votes;
-                        this.sum_completed_payments = response.data.sum_completed_payments;
+                        this.posts = response.data.posts;
+                        this.total_posts = response.data.total;
                     }else{
                         console.log(response.data.message);
                     }
                 }).catch((error) => {
-                    console.log(error);
-                });
+                console.log(error);
+            });
         },
+
+        recentPodcasts(limit = 5){
+            axios.get('/api/admin/podcasts/'+limit+'/recent')
+                .then((response) => {
+                    if(response.data.success === true){
+                        this.podcasts = response.data.podcasts;
+                        this.total_podcasts = response.data.total;
+                    }else{
+                        console.log(response.data.message);
+                    }
+                }).catch((error) => {
+                console.log(error);
+            });
+        },
+
+        formLoading(){
+            // Install sweetalert2 to use
+            // Loading
+            Swal.fire({
+                title: 'Please Wait !',
+                html: 'Submitting',// add html attribute if you want or remove
+                allowOutsideClick: false,
+                showCancelButton: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                },
+            });
+        },
+
+        formSuccess(response){
+            this.errors = [];
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 10000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
+            Toast.fire({
+                icon: 'success',
+                title: 'Submitted'
+            });
+        },
+
+        formError(response){
+            Swal.fire({
+                icon: 'error',
+                title: 'Error Occurred',
+                showConfirmButton: false,
+                timer: 2500
+            });
+            this.errors = response.data.errors;
+            console.log(this.errors);
+            console.log(response.data.message);
+        },
+
+        formEmpty(){
+            this.form.forEach((item)=>{
+                item.title = '';
+                item.document = '';
+            });
+        }
+
     },
     mounted(){
-
+        this.recentBlogPosts();
+        this.recentPodcasts();
     }
 }
 </script>
