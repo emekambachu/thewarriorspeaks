@@ -1,21 +1,24 @@
 <template>
     <div class="container">
         <div class="row">
-
-            <div class="col-xl-6">
+            <div class="col-12 text-danger text-center">
+                <span class="" v-for="(error, index) in errors" :key="index">
+                    {{ error.toString() }}<br>
+                </span>
+            </div>
+            <div class="col-12">
                 <div class="card">
                     <div class="card-body">
                         <h4 v-if="post === undefined" class="card-title mb-4">Add new post</h4>
                         <h4 v-else class="card-title mb-4">Update post</h4>
 
-                        <form>
+                        <form enctype="multipart/form-data">
                             <div class="row mb-4">
                                 <label for="horizontal-firstname-input"
                                        class="col-sm-3 col-form-label">Title</label>
                                 <div class="col-sm-9">
                                     <input v-model="form.title" type="text"
-                                           class="form-control"
-                                           id="horizontal-firstname-input">
+                                           class="form-control">
                                 </div>
                             </div>
 
@@ -24,26 +27,28 @@
                                        class="col-sm-3 col-form-label">Author</label>
                                 <div class="col-sm-9">
                                     <input v-model="form.author" type="text"
-                                           class="form-control"
-                                           id="horizontal-firstname-input">
+                                           class="form-control">
                                 </div>
                             </div>
 
                             <div class="row mb-4">
-                                <div class="col-sm-auto">
-                                    <label class="visually-hidden"
-                                           for="autoSizingSelect">Categories</label>
-                                    <select class="form-select" id="autoSizingSelect">
+                                <label for="horizontal-firstname-input"
+                                       class="col-sm-3 col-form-label">Categories</label>
+                                <div class="col-sm-9">
+                                    <select v-model="form.category_id" class="form-select">
                                         <option selected="" value="">Choose...</option>
                                         <option v-for="category in categories"
-                                                :value="category.id">{{ category.name }}</option>
+                                                :key="category.id"
+                                                :value="category.id">
+                                            {{ category.name }}</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="row mb-4">
-                                <div class="col-sm-auto">
-                                    <label>Image</label>
+                                <label for="horizontal-firstname-input"
+                                       class="col-sm-3 col-form-label">Image</label>
+                                <div class="col-sm-9">
                                     <input type="file" @change="uploadImage" class="form-control" required>
                                     <div v-if="imageErrorMessage === '' && form.image !== null">
                                         <img :src="imagePreview" width="100"/>
@@ -60,21 +65,20 @@
                             </div>
 
                             <div class="row mb-4">
-                                <div class="col-sm-auto">
-                                    <div class="form-group">
-                                        <label class="visually-hidden"
-                                               for="autoSizingSelect">Description</label>
-                                        <ckeditor class="form-control" :editor="editor"
-                                                  v-model="form.description"
-                                                  :config="editorConfig"></ckeditor>
-                                    </div>
+                                <label for="horizontal-firstname-input"
+                                       class="col-sm-3 col-form-label">Description</label>
+                                <div class="col-sm-9">
+                                    <ckeditor class="form-control" :editor="editor"
+                                              v-model="form.description"
+                                              :config="editorConfig"></ckeditor>
                                 </div>
                             </div>
 
                             <div class="row mb-4">
-                                <div class="col-sm-auto">
-                                    <label class="visually-hidden" for="autoSizingSelect">Status</label>
-                                    <select v-model="form.status" class="form-select" id="autoSizingSelect">
+                                <label for="horizontal-firstname-input"
+                                       class="col-sm-3 col-form-label">Status</label>
+                                <div class="col-sm-9">
+                                    <select v-model="form.status" class="form-select">
                                         <option selected="" value="">Choose...</option>
                                         <option value="published">Publish</option>
                                         <option value="pending">Draft</option>
@@ -85,9 +89,10 @@
                             <div class="row justify-content-end">
                                 <div class="col-sm-auto">
                                     <div>
-                                        <button v-if="post === undefined" type="submit"
+                                        <button @click.prevent="submitPost"
+                                                v-if="post === undefined" type="submit"
                                                 class="btn btn-primary w-md">Submit</button>
-                                        <button v-else type="submit"
+                                        <button @click.prevent="updatePost" v-else type="submit"
                                                 class="btn btn-primary w-md">Update</button>
                                     </div>
                                 </div>
@@ -168,20 +173,24 @@ export default {
             this.errors = [];
             this.formLoading();
             let formData = new FormData();
+
             // iterate form object
             let self = this; //you need this because *this* will refer to Object.keys below`
             //Iterate through each object field, key is name of the object field`
-            Object.keys(this.form).forEach(function(key) {
+            Object.keys(this.form).forEach(function(key,index) {
                 console.log(key); // key
                 console.log(self.form[key]); // value
                 formData.append(key, self.form[key]);
             });
 
+            // check entries
+            console.log(...formData.entries());
+
             let config = {
                 headers: { 'content-type': 'multipart/form-data' }
             }
 
-            axios.post('/api/admin/blog/posts/create', formData, config)
+            axios.post('/api/admin/blog/posts/create', formData)
                 .then((response) => {
                     console.log(response.data);
                     if(response.data.success === true){
@@ -235,7 +244,7 @@ export default {
                 headers: {'content-type': 'multipart/form-data'}
             }
 
-            axios.post('/api/admin/blog/posts/'+this.post.id+'/update', formData, config)
+            axios.post('/api/admin/blog/posts/'+this.post.id+'/update', formData)
                 .then((response) => {
                     if(response.data.success === true){
                         this.formSuccess(response);

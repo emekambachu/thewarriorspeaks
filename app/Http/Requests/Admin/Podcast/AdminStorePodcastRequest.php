@@ -26,12 +26,13 @@ class AdminStorePodcastRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|unique:blog_posts,title',
+            'title' => 'required|string|unique:podcasts,title',
             'author' => 'required|string',
             'description' => 'required|string',
-            'category_id' => 'nullable|integer',
+            'category_id' => 'required|integer',
             'status' => 'nullable|string',
             'image' => 'required|image|mimes:jpg,jpeg,png|max:5000',
+            'audio' => 'required|mimes:application/octet-stream,audio/mpeg,mpga,mp3,wav|max:30000',
         ];
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Blog;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Blog\AdminStorePostRequest;
 use App\Http\Requests\Admin\Podcast\AdminStorePodcastRequest;
 use App\Services\Blog\BlogPostService;
 use Illuminate\Http\Request;
@@ -84,7 +85,8 @@ class AdminBlogController extends Controller
         }
     }
 
-    public function store(AdminStorePodcastRequest $request){
+    public function store(AdminStorePostRequest $request): \Illuminate\Http\JsonResponse
+    {
         try {
             $post = $this->blog->createPost($request);
             return response()->json([

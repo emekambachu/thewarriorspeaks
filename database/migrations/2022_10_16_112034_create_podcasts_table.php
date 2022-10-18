@@ -23,7 +23,7 @@ class CreatePodcastsTable extends Migration
             $table->longText('audio_path')->nullable();
             $table->string('author');
             $table->longText('description');
-            $table->string('status');
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }
