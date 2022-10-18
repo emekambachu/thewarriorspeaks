@@ -16,7 +16,7 @@
         </td>
         <td>
             <router-link
-                :to="{ name: 'AdminBlogEdit', params: { id: podcast.id }}">
+                :to="{ name: 'AdminPodcastEdit', params: { id: podcast.id }}">
                 <button type="button"
                         class="btn btn-primary btn-sm btn-rounded waves-effect waves-light">Edit</button>
             </router-link>

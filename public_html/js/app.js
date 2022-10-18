@@ -21709,8 +21709,257 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _ckeditor_ckeditor5_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @ckeditor/ckeditor5-vue */ "./node_modules/@ckeditor/ckeditor5-vue/dist/ckeditor.js");
+/* harmony import */ var _ckeditor_ckeditor5_vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_ckeditor_ckeditor5_vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ckeditor/ckeditor5-build-classic */ "./node_modules/@ckeditor/ckeditor5-build-classic/build/ckeditor.js");
+/* harmony import */ var _ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_1__);
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "AdminPodcastForm"
+  components: {
+    // Use the <ckeditor> component in this view.
+    ckeditor: (_ckeditor_ckeditor5_vue__WEBPACK_IMPORTED_MODULE_0___default().component)
+  },
+  props: {
+    podcast: [Object, null]
+  },
+  data: function data() {
+    return {
+      editor: (_ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_1___default()),
+      editorConfig: {
+        // The configuration of the editor.
+      },
+      form: {
+        title: '',
+        author: '',
+        category_id: '',
+        image: null,
+        audio: null,
+        description: '',
+        status: ''
+      },
+      categories: [],
+      imagePreview: null,
+      audioPreview: null,
+      validationAlert: '',
+      imageErrorMessage: '',
+      audioErrorMessage: '',
+      errors: [],
+      podcast: null
+    };
+  },
+  methods: {
+    uploadImage: function uploadImage(event) {
+      this.validateImage(event);
+      //Assign image and path to this variable
+      this.form.image = event.target.files[0];
+      this.imageErrorMessage = '';
+      // create base64 version display of image
+      this.imagePreview = URL.createObjectURL(event.target.files[0]);
+    },
+    validateImage: function validateImage(event) {
+      // Validate Image
+      var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+      if (!allowedExtensions.exec(event.target.files[0].name)) {
+        this.imageErrorMessage = 'Incorrect image format';
+        this.form.image = null;
+        return false;
+      }
+      if (event.target.files[0].size > 5000000) {
+        this.imageErrorMessage = 'File too large, 5mb max.';
+        this.form.image = null;
+        return false;
+      }
+    },
+    uploadAudio: function uploadAudio(event) {
+      this.validateAudio(event);
+      //Assign image and path to this variable
+      this.form.audio = event.target.files[0];
+      this.audioErrorMessage = '';
+      // create base64 version display of image
+      this.audioPreview = event.target.files[0].name;
+    },
+    validateAudio: function validateAudio(event) {
+      // Validate Image
+      var allowedExtensions = /(\.mp3|\.m4a|\.wave)$/i;
+      if (!allowedExtensions.exec(event.target.files[0].name)) {
+        this.audioErrorMessage = 'Incorrect format';
+        this.form.audio = null;
+        return false;
+      }
+      if (event.target.files[0].size > 30000000) {
+        this.audioErrorMessage = 'File too large, 30mb max.';
+        this.form.audio = null;
+        return false;
+      }
+    },
+    submitPodcast: function submitPodcast() {
+      var _console,
+        _this = this;
+      this.errors = [];
+      this.formLoading();
+      var formData = new FormData();
+
+      // iterate form object
+      var self = this; //you need this because *this* will refer to Object.keys below`
+      //Iterate through each object field, key is name of the object field`
+      Object.keys(this.form).forEach(function (key, index) {
+        console.log(key); // key
+        console.log(self.form[key]); // value
+        formData.append(key, self.form[key]);
+      });
+
+      // check entries
+      (_console = console).log.apply(_console, _toConsumableArray(formData.entries()));
+      var config = {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      };
+      axios.post('/api/admin/podcasts/create', formData).then(function (response) {
+        console.log(response.data);
+        if (response.data.success === true) {
+          _this.formSuccess();
+          _this.formEmpty();
+        } else {
+          _this.formError(response);
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    populatePodcast: function populatePodcast() {
+      var _this2 = this;
+      axios.get('/api/admin/podcasts/' + this.$route.params.id + '/show').then(function (response) {
+        if (response.data.success === true) {
+          _this2.podcast = response.data.podcast;
+          // populate form object
+          var self = _this2; //you need this because *this* will refer to Object.keys below`
+          //Iterate through each object field, key is name of the object field`
+          Object.keys(response.data.podcast).forEach(function (key) {
+            console.log(key); // key
+            console.log(response.data.podcast[key]); // value
+            if (key === 'image') {
+              self.form['image'] = null;
+            } else if (key === 'audio') {
+              self.form['audio'] = null;
+            } else {
+              self.form[key] = response.data.post[key];
+            }
+          });
+        }
+      });
+    },
+    updatePodcast: function updatePodcast() {
+      var _this3 = this;
+      this.errors = [];
+      this.formLoading();
+      var formData = new FormData();
+      // iterate form object
+      var self = this; //you need this because *this* will refer to Object.keys below`
+      //Iterate through each object field, key is name of the object field`
+      Object.keys(this.form).forEach(function (key) {
+        console.log(key); // key
+        console.log(self.form[key]); // value
+        if (self.form[key] !== null) {
+          formData.append(key, self.form[key]);
+        }
+      });
+      console.log(this.form);
+      var config = {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      };
+      axios.post('/api/admin/podcasts/' + this.$route.params.id + '/update', formData).then(function (response) {
+        if (response.data.success === true) {
+          _this3.formSuccess(response);
+        } else {
+          _this3.formError(response);
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    formLoading: function formLoading() {
+      // Install sweetalert2 to use
+      // Loading
+      Swal.fire({
+        title: 'Please Wait !',
+        html: 'Submitting',
+        // add html attribute if you want or remove
+        allowOutsideClick: false,
+        showCancelButton: false,
+        showConfirmButton: false,
+        didOpen: function didOpen() {
+          Swal.showLoading();
+        }
+      });
+    },
+    formSuccess: function formSuccess() {
+      var Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 8000,
+        timerProgressBar: true,
+        didOpen: function didOpen(toast) {
+          toast.addEventListener('mouseenter', Swal.stopTimer);
+          toast.addEventListener('mouseleave', Swal.resumeTimer);
+        }
+      });
+      Toast.fire({
+        icon: 'success',
+        title: 'Submitted'
+      });
+    },
+    formError: function formError(response) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error Occurred',
+        showConfirmButton: false,
+        timer: 2500
+      });
+      this.errors = response.data.errors;
+      console.log(this.errors);
+      console.log(response.data.message);
+    },
+    formEmpty: function formEmpty() {
+      var self = this; //you need this because *this* will refer to Object.keys below`
+      //Iterate through each object field, key is name of the object field`
+      Object.keys(this.form).forEach(function (value) {
+        if (value === 'image') {
+          self.form[value] = null;
+        } else {
+          self.form[value] = '';
+        }
+      });
+    },
+    getCategories: function getCategories() {
+      var _this4 = this;
+      axios.get('/api/categories').then(function (response) {
+        if (response.data.success === true) {
+          _this4.categories = response.data.categories;
+        } else {
+          console.log(response.data.message);
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  },
+  mounted: function mounted() {
+    this.getCategories();
+    if (this.$route.params.id) {
+      this.populatePodcast();
+    }
+  }
 });
 
 /***/ }),
@@ -23557,8 +23806,241 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* binding */ render)
 /* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+var _hoisted_1 = {
+  "class": "container"
+};
+var _hoisted_2 = {
+  "class": "row"
+};
+var _hoisted_3 = {
+  "class": "col-12 text-danger text-center"
+};
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1 /* HOISTED */);
+var _hoisted_5 = {
+  "class": "col-12"
+};
+var _hoisted_6 = {
+  "class": "card"
+};
+var _hoisted_7 = {
+  "class": "card-body"
+};
+var _hoisted_8 = {
+  key: 0,
+  "class": "card-title mb-4"
+};
+var _hoisted_9 = {
+  key: 1,
+  "class": "card-title mb-4"
+};
+var _hoisted_10 = {
+  enctype: "multipart/form-data"
+};
+var _hoisted_11 = {
+  "class": "row mb-4"
+};
+var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "horizontal-firstname-input",
+  "class": "col-sm-3 col-form-label"
+}, "Title", -1 /* HOISTED */);
+var _hoisted_13 = {
+  "class": "col-sm-9"
+};
+var _hoisted_14 = {
+  "class": "row mb-4"
+};
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "horizontal-firstname-input",
+  "class": "col-sm-3 col-form-label"
+}, "Author", -1 /* HOISTED */);
+var _hoisted_16 = {
+  "class": "col-sm-9"
+};
+var _hoisted_17 = {
+  "class": "row mb-4"
+};
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "horizontal-firstname-input",
+  "class": "col-sm-3 col-form-label"
+}, "Categories", -1 /* HOISTED */);
+var _hoisted_19 = {
+  "class": "col-sm-9"
+};
+var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  selected: "",
+  value: ""
+}, "Choose...", -1 /* HOISTED */);
+var _hoisted_21 = ["value"];
+var _hoisted_22 = {
+  "class": "row mb-4"
+};
+var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "horizontal-firstname-input",
+  "class": "col-sm-3 col-form-label"
+}, "Image", -1 /* HOISTED */);
+var _hoisted_24 = {
+  "class": "col-sm-9"
+};
+var _hoisted_25 = {
+  key: 0
+};
+var _hoisted_26 = ["src"];
+var _hoisted_27 = ["src"];
+var _hoisted_28 = {
+  key: 2,
+  "class": "text-center text-danger"
+};
+var _hoisted_29 = {
+  "class": "row mb-4"
+};
+var _hoisted_30 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "horizontal-firstname-input",
+  "class": "col-sm-3 col-form-label"
+}, "Audio", -1 /* HOISTED */);
+var _hoisted_31 = {
+  "class": "col-sm-9"
+};
+var _hoisted_32 = {
+  key: 0
+};
+var _hoisted_33 = ["src"];
+var _hoisted_34 = {
+  key: 2,
+  "class": "text-center text-danger"
+};
+var _hoisted_35 = {
+  "class": "row mb-4"
+};
+var _hoisted_36 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "horizontal-firstname-input",
+  "class": "col-sm-3 col-form-label"
+}, "Description", -1 /* HOISTED */);
+var _hoisted_37 = {
+  "class": "col-sm-9"
+};
+var _hoisted_38 = {
+  "class": "row mb-4"
+};
+var _hoisted_39 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "horizontal-firstname-input",
+  "class": "col-sm-3 col-form-label"
+}, "Status", -1 /* HOISTED */);
+var _hoisted_40 = {
+  "class": "col-sm-9"
+};
+var _hoisted_41 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  selected: "",
+  value: ""
+}, "Choose...", -1 /* HOISTED */);
+var _hoisted_42 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  value: "published"
+}, "Publish", -1 /* HOISTED */);
+var _hoisted_43 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  value: "pending"
+}, "Draft", -1 /* HOISTED */);
+var _hoisted_44 = [_hoisted_41, _hoisted_42, _hoisted_43];
+var _hoisted_45 = {
+  "class": "row justify-content-end"
+};
+var _hoisted_46 = {
+  "class": "col-sm-auto"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return null;
+  var _component_ckeditor = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("ckeditor");
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.errors, function (error, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+      "class": "",
+      key: index
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(error.toString()), 1 /* TEXT */), _hoisted_4]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [$data.podcast === undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h4", _hoisted_8, "Add new podcast")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h4", _hoisted_9, "Update podcast")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return $data.form.title = $event;
+    }),
+    type: "text",
+    "class": "form-control"
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.title]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return $data.form.author = $event;
+    }),
+    type: "text",
+    "class": "form-control"
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.author]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [_hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+      return $data.form.category_id = $event;
+    }),
+    "class": "form-select"
+  }, [_hoisted_20, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.categories, function (category) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: category.id,
+      value: category.id
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name), 9 /* TEXT, PROPS */, _hoisted_21);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.form.category_id]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "file",
+    onChange: _cache[3] || (_cache[3] = function () {
+      return $options.uploadImage && $options.uploadImage.apply($options, arguments);
+    }),
+    "class": "form-control",
+    required: ""
+  }, null, 32 /* HYDRATE_EVENTS */), $data.imageErrorMessage === '' && $data.form.image !== null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: $data.imagePreview,
+    width: "100"
+  }, null, 8 /* PROPS */, _hoisted_26), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    onClick: _cache[4] || (_cache[4] = function ($event) {
+      return $data.form.image = null;
+    }),
+    "class": "pl-1 fa fa-times text-danger",
+    title: "Remove image"
+  })])) : _ctx.post !== undefined && _ctx.post.image ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
+    key: 1,
+    src: '/' + _ctx.post.image_path + '/' + _ctx.post.image,
+    width: "100"
+  }, null, 8 /* PROPS */, _hoisted_27)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.imageErrorMessage !== '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.imageErrorMessage), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [_hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "file",
+    onChange: _cache[5] || (_cache[5] = function () {
+      return $options.uploadAudio && $options.uploadAudio.apply($options, arguments);
+    }),
+    "class": "form-control",
+    required: ""
+  }, null, 32 /* HYDRATE_EVENTS */), $data.audioErrorMessage === '' && $data.form.audio !== null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.audioPreview), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    onClick: _cache[6] || (_cache[6] = function ($event) {
+      return $data.form.audio = null;
+    }),
+    "class": "pl-1 fa fa-times text-danger",
+    title: "Remove image"
+  })])) : $data.podcast !== undefined && $data.podcast.audio ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
+    key: 1,
+    src: '/' + $data.podcast.audio_path + '/' + $data.podcast.audio,
+    width: "100"
+  }, null, 8 /* PROPS */, _hoisted_33)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.audioErrorMessage !== '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.audioErrorMessage), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [_hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ckeditor, {
+    "class": "form-control",
+    editor: $data.editor,
+    modelValue: $data.form.description,
+    "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
+      return $data.form.description = $event;
+    }),
+    config: $data.editorConfig
+  }, null, 8 /* PROPS */, ["editor", "modelValue", "config"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [_hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
+      return $data.form.status = $event;
+    }),
+    "class": "form-select"
+  }, _hoisted_44, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.form.status]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [$data.podcast === undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
+    onClick: _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.submitPodcast && $options.submitPodcast.apply($options, arguments);
+    }, ["prevent"])),
+    type: "submit",
+    "class": "btn btn-primary w-md"
+  }, "Submit")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 1,
+    onClick: _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.updatePodcast && $options.updatePodcast.apply($options, arguments);
+    }, ["prevent"])),
+    type: "submit",
+    "class": "btn btn-primary w-md"
+  }, "Update"))])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" end card body ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" end card ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" end col ")])]);
 }
 
 /***/ }),
@@ -23603,7 +24085,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     src: $props.podcast.image_path + $props.podcast.image
   }, null, 8 /* PROPS */, _hoisted_7)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [$props.podcast.status === 'published' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.podcast.status), 1 /* TEXT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.podcast.status), 1 /* TEXT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: {
-      name: 'AdminBlogEdit',
+      name: 'AdminPodcastEdit',
       params: {
         id: $props.podcast.id
       }
