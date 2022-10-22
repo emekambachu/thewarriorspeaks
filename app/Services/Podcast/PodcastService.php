@@ -3,34 +3,90 @@
 namespace App\Services\Podcast;
 
 use App\Models\Podcast\Podcast;
+use App\Services\Base\CrudService;
+use Illuminate\Support\Facades\Session;
 
 /**
  * Class PodcastService.
  */
 class PodcastService
 {
+    protected string $audioPath = 'audio/podcasts';
+    protected string $imagePath = 'photos/podcasts';
+
+    protected $crud;
+    public function __construct(CrudService $crud){
+        $this->crud = $crud;
+    }
+
     public function podcast(): Podcast
     {
         return new Podcast();
     }
 
-    public function podcastWithRelations(){
+    public function podcastWithRelations(): \Illuminate\Database\Eloquent\Builder
+    {
         return $this->podcast()->with('likes', 'comments', 'category');
+    }
+
+    public function publishedPodcasts(): \Illuminate\Database\Eloquent\Builder
+    {
+        return $this->podcastWithRelations()
+            ->where('status', 'published');
     }
 
     public function podcastById($id){
         return $this->podcastWithRelations()->findOrFail($id);
     }
 
-    public function createPodcast($request){
-
+    public function createPodcast($request): void
+    {
+        $input = $request->all();
+        $input['image'] = $this->crud->compressAndUploadImage($request->image, $this->imagePath, 700, 500);
+        $input['image_path'] = @config('app.app_url').$this->imagePath;
+        $input['audio'] = $this->crud->uploadAudio($request->audio, $this->audioPath);
+        $input['audio_path'] = @config('app.app_url').$this->audioPath;
+        $this->podcast()->create($input);
     }
 
     public function updatePodcast($request, $id){
+        $input = $request->all();
+        $podcast = $this->podcastById($id);
+        Session::put('image', $podcast->image);
+        Session::put('audio', $podcast->audio);
 
+        $image = $this->crud->compressAndUploadImage($request->image, $this->imagePath, 700, 500);
+        if($image){
+            $input['image'] = $image;
+        }else{
+            $input['image'] = $podcast->image;
+        }
+        $audio = $this->crud->uploadAudio($request->audio, $this->audioPath);
+        if($audio){
+            $input['audio'] = $audio;
+        }else{
+            $input['audio'] = $podcast->audio;
+        }
+        $podcast->update($input);
+
+        if(Session::get('image') !== $podcast->image){
+            $this->crud->deleteFile(Session::get('image'), $this->imagePath);
+        }
+        if(Session::get('audio') !== $podcast->audio){
+            $this->crud->deleteFile(Session::get('audio'), $this->audioPath);
+        }
     }
 
     public function publishPodcast($id){
+        $podcast = $this->podcastById($id);
+        $this->crud->publishItem($podcast->id);
+    }
 
+    public function deletePodcast($id){
+        $podcast = $this->podcastById($id);
+        $this->crud->deleteFile($podcast->image, $this->imagePath);
+        $this->crud->deleteFile($podcast->audio, $this->audioPath);
+        $this->crud->deleteRelation([$podcast->likes, $podcast->comments]);
+        $podcast->delete();
     }
 }

@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class AdminBlogController extends Controller
 {
-    protected $blog;
+    protected BlogPostService $blog;
     public function __construct(BlogPostService $blog){
         $this->blog = $blog;
         $this->middleware('auth:web');
@@ -69,12 +69,12 @@ class AdminBlogController extends Controller
     public function search(Request $request): \Illuminate\Http\JsonResponse
     {
         try {
-            $posts = $this->post->searchBlogPost($request);
+            $data = $this->blog->searchBlogPosts($request, $this->blog->blogPost());
             return response()->json([
                 'success' => true,
-                'posts' => $posts['posts'],
-                'total' => $posts['total'],
-                'search_values' => $posts['search_values'],
+                'posts' => $data['posts'],
+                'total' => $data['total'],
+                'search_values' => $data['search_values'],
             ]);
 
         } catch (\Exception $e) {
@@ -102,7 +102,8 @@ class AdminBlogController extends Controller
         }
     }
 
-    public function show($id){
+    public function show($id): \Illuminate\Http\JsonResponse
+    {
         try {
             $data = $this->blog->blogPostById($id);
             return response()->json([
@@ -117,7 +118,8 @@ class AdminBlogController extends Controller
         }
     }
 
-    public function update(AdminStorePodcastRequest $request, $id){
+    public function update(AdminStorePostRequest $request, $id): \Illuminate\Http\JsonResponse
+    {
         try {
             $data = $this->blog->updatePost($request, $id);
             return response()->json([
@@ -133,9 +135,10 @@ class AdminBlogController extends Controller
         }
     }
 
-    public function destroy($id){
+    public function destroy($id): \Illuminate\Http\JsonResponse
+    {
         try {
-            $data = $this->blog->deletePost($id);
+            $this->blog->deletePost($id);
             return response()->json([
                 'success' => true,
                 'message' => 'Deleted',

@@ -68,6 +68,16 @@ class CrudService
         return false;
     }
 
+    public function uploadAudio($request, $path)
+    {
+        if($file = $request->file('audio')) {
+            $name = time() . $file->getClientOriginalName();
+            $file->move(public_path($path), $name);
+            return $name;
+        }
+        return false;
+    }
+
     public function deleteFile($fileName, $filePath): void
     {
         if(File::exists(public_path() . '/'.$filePath.'/' . $fileName)){
@@ -75,15 +85,17 @@ class CrudService
         }
     }
 
-    public function deleteRelation($relation, $path = null): void
+    public function deleteRelation($path = null, ...$relations): void
     {
-        if($relation->count() > 0){
-            foreach($relation as $object){
-                $item_file = $object->photo ?? $object->document ?? $object->image ?? $object->file;
-                if($path !== null && !empty($item_file) && File::exists(public_path() . '/'.$path.'/' . $item_file)) {
-                    FILE::delete(public_path() . '/'.$path.'/' . $item_file);
+        foreach($relations as $relation){
+            if($relation->count() > 0){
+                foreach($relation as $object){
+                    $item_file = $object->photo ?? $object->document ?? $object->image ?? $object->file;
+                    if($path !== null && !empty($item_file) && File::exists(public_path() . '/'.$path.'/' . $item_file)) {
+                        FILE::delete(public_path() . '/'.$path.'/' . $item_file);
+                    }
+                    $object->delete();
                 }
-                $object->delete();
             }
         }
     }

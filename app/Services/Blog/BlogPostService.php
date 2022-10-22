@@ -104,4 +104,11 @@ class BlogPostService
             'search_values' => $searchValues
         ];
     }
+
+    public function deletePost($id): void
+    {
+        $post = $this->blogPostById($id);
+        $this->crud->deleteFile($post->image, $this->imagePath);
+        $post->delete();
+    }
 }

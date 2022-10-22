@@ -21956,7 +21956,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   },
   mounted: function mounted() {
     this.getCategories();
-    if (this.$route.params.id) {
+    if (this.$route.params.id !== undefined) {
       this.populatePodcast();
     }
   }
@@ -24009,7 +24009,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     "class": "pl-1 fa fa-times text-danger",
     title: "Remove image"
-  })])) : $data.podcast !== undefined && $data.podcast.audio ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
+  })])) : _ctx.$route.params.id !== undefined && $data.podcast.audio ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
     key: 1,
     src: '/' + $data.podcast.audio_path + '/' + $data.podcast.audio,
     width: "100"

@@ -75,7 +75,7 @@
                                               class="pl-1 fa fa-times text-danger"
                                               title="Remove image"></span>
                                     </div>
-                                    <img v-else-if="podcast !== undefined && podcast.audio"
+                                    <img v-else-if="$route.params.id !== undefined && podcast.audio"
                                          :src="'/'+podcast.audio_path+'/'+podcast.audio" width="100"/>
                                     <p v-if="audioErrorMessage !== ''" class="text-center text-danger">
                                         {{ audioErrorMessage }}
@@ -381,7 +381,7 @@ export default {
 
     mounted(){
         this.getCategories();
-        if(this.$route.params.id){
+        if(this.$route.params.id !== undefined){
             this.populatePodcast();
         }
     }
