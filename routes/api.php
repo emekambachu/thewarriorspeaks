@@ -58,22 +58,22 @@ Route::middleware('web')->group(static function (){
     Route::get('/admin/blog/posts/{id}/show', [AdminBlogController::class, 'show']);
     Route::post('/admin/blog/posts/{id}/publish', [AdminBlogController::class, 'publish']);
     Route::post('/admin/blog/posts/{id}/update', [AdminBlogController::class, 'update']);
-    Route::delete('/admin/blog/posts/{id}/delete', [AdminBlogController::class, 'delete']);
+    Route::delete('/admin/blog/posts/{id}/delete', [AdminBlogController::class, 'destroy']);
 
     // Admin Podcast
     Route::get('/admin/podcasts/{limit}/recent', [AdminPodcastController::class, 'recentPodcast']);
     Route::get('/admin/podcasts', [AdminPodcastController::class, 'index']);
     Route::post('/admin/podcasts/search', [AdminPodcastController::class, 'search']);
     Route::post('/admin/podcasts/create', [AdminPodcastController::class, 'store']);
-    Route::post('/admin/podcasts/{id}/show', [AdminPodcastController::class, 'show']);
+    Route::get('/admin/podcasts/{id}/show', [AdminPodcastController::class, 'show']);
     Route::post('/admin/podcasts/{id}/publish', [AdminPodcastController::class, 'publish']);
     Route::post('/admin/podcasts/{id}/update', [AdminPodcastController::class, 'update']);
-    Route::delete('/admin/podcasts/{id}/delete', [AdminPodcastController::class, 'delete']);
+    Route::delete('/admin/podcasts/{id}/delete', [AdminPodcastController::class, 'destroy']);
 
     // Admin Author
     Route::get('/admin/author', [AdminAuthorController::class, 'index']);
     Route::post('/admin/author', [AdminAuthorController::class, 'update']);
 
     // User Logout
-    Route::post('/admin/logout', [LoginController::class, 'logout']);
+    Route::get('/admin/logout', [LoginController::class, 'logout']);
 });

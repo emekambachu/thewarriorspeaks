@@ -16,7 +16,7 @@
                 {{ post.status }}</span>
         </td>
         <td>
-            <router-link :to="{ name: 'AdminBlogEdit', params: { id: post.id }}">
+            <router-link :to="{ name: 'AdminBlogEdit', params: {id: post.id}}">
                 <button type="button"
                         class="btn btn-primary btn-sm btn-rounded waves-effect waves-light">Edit</button>
             </router-link>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Podcast;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Podcast\AdminStorePodcastRequest;
+use App\Http\Requests\Admin\Podcast\AdminUpdatePodcastRequest;
 use App\Services\Podcast\PodcastService;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,8 @@ class AdminPodcastController extends Controller
         $this->middleware('auth:web');
     }
 
-    public function recentPodcast($limit){
+    public function recentPodcast($limit): \Illuminate\Http\JsonResponse
+    {
         try {
             $data = $this->podcast->podcastWithRelations();
             return response()->json([
@@ -31,7 +33,8 @@ class AdminPodcastController extends Controller
         }
     }
 
-    public function index(){
+    public function index(): \Illuminate\Http\JsonResponse
+    {
         try {
             $data = $this->podcast->podcastWithRelations()->latest()
                 ->paginate(12);
@@ -48,12 +51,58 @@ class AdminPodcastController extends Controller
         }
     }
 
-    public function store(AdminStorePodcastRequest $request){
+    public function store(AdminStorePodcastRequest $request): \Illuminate\Http\JsonResponse
+    {
         try {
             $data = $this->podcast->createPodcast($request);
             return response()->json([
                 'success' => true,
                 'podcast' => $data,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function show($id): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $data = $this->podcast->podcastById($id);
+            return response()->json([
+                'success' => true,
+                'podcast' => $data,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function update(AdminUpdatePodcastRequest $request, $id){
+        try {
+            $this->podcast->updatePodcast($request, $id);
+            return response()->json([
+                'success' => true
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function deletePodcast($id): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $this->podcast->deletePodcast($id);
+            return response()->json([
+                'success' => true
             ]);
         } catch (\Exception $e) {
             return response()->json([

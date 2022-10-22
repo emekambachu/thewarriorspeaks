@@ -10,9 +10,9 @@ use App\Services\Base\CrudService;
  */
 class BlogPostService
 {
-    protected $imagePath = 'photos/blog/posts';
+    protected string $imagePath = 'photos/blog/posts';
 
-    protected $crud;
+    protected CrudService $crud;
     public function __construct(CrudService $crud){
         $this->crud = $crud;
     }

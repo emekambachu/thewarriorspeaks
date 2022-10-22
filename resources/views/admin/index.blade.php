@@ -167,7 +167,7 @@
 
                         <li>
                             <router-link
-                                class="has-arrow waves-effect"
+                                class="waves-effect"
                                 exact
                                 :to="{ name: 'AdminLogout'}"
                             >

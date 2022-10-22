@@ -68,11 +68,10 @@ class CrudService
         return false;
     }
 
-    public function uploadAudio($request, $path)
-    {
+    public function uploadAudio($request, $path){
         if($file = $request->file('audio')) {
             $name = time() . $file->getClientOriginalName();
-            $file->move(public_path($path), $name);
+            $file->move($path, $name);
             return $name;
         }
         return false;

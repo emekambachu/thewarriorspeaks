@@ -1,6 +1,14 @@
 <template>
     <div class="container">
         <div class="row">
+            <div class="col-12">
+                <router-link
+                    class="waves-effect"
+                    exact
+                    :to="{ name: 'AdminPodcast'}">
+                    <button type="button" class="btn btn-primary waves-effect waves-light mb-2">Podcasts</button>
+                </router-link>
+            </div>
             <div class="col-12 text-danger text-center">
                 <span class="" v-for="(error, index) in errors" :key="index">
                     {{ error.toString() }}<br>
@@ -9,7 +17,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 v-if="podcast === undefined" class="card-title mb-4">Add new podcast</h4>
+                        <h4 v-if="!$route.params.id" class="card-title mb-4">Add new podcast</h4>
                         <h4 v-else class="card-title mb-4">Update podcast</h4>
 
                         <form enctype="multipart/form-data">
@@ -50,14 +58,14 @@
                                        class="col-sm-3 col-form-label">Image</label>
                                 <div class="col-sm-9">
                                     <input type="file" @change="uploadImage" class="form-control" required>
-                                    <div v-if="imageErrorMessage === '' && form.image !== null">
+                                    <div v-if="!$route.params.id && form.image !== null">
                                         <img :src="imagePreview" width="100"/>
                                         <span @click="form.image = null"
                                               class="pl-1 fa fa-times text-danger"
                                               title="Remove image"></span>
                                     </div>
-                                    <img v-else-if="post !== undefined && post.image"
-                                         :src="'/'+post.image_path+'/'+post.image" width="100"/>
+                                    <img v-else-if="$route.params.id && form.image !== null"
+                                         :src="form.image_path+form.image" width="100"/>
                                     <p v-if="imageErrorMessage !== ''" class="text-center text-danger">
                                         {{ imageErrorMessage }}
                                     </p>
@@ -69,14 +77,18 @@
                                        class="col-sm-3 col-form-label">Audio</label>
                                 <div class="col-sm-9">
                                     <input type="file" @change="uploadAudio" class="form-control" required>
-                                    <div v-if="audioErrorMessage === '' && form.audio !== null">
-                                        <i>{{ audioPreview }}</i>
+                                    <div v-if="!$route.params.id && audioErrorMessage === ''">
+                                        <i>{{ form.audio }}</i>
                                         <span @click="form.audio = null"
                                               class="pl-1 fa fa-times text-danger"
                                               title="Remove image"></span>
                                     </div>
-                                    <img v-else-if="$route.params.id !== undefined && podcast.audio"
-                                         :src="'/'+podcast.audio_path+'/'+podcast.audio" width="100"/>
+                                    <div v-else-if="$route.params.id && form.audio !== null">
+                                        <i>{{ form.audio }}</i>
+                                        <span @click="form.audio = null"
+                                              class="pl-1 fa fa-times text-danger"
+                                              title="Remove image"></span>
+                                    </div>
                                     <p v-if="audioErrorMessage !== ''" class="text-center text-danger">
                                         {{ audioErrorMessage }}
                                     </p>
@@ -109,7 +121,7 @@
                                 <div class="col-sm-auto">
                                     <div>
                                         <button @click.prevent="submitPodcast"
-                                                v-if="podcast === undefined" type="submit"
+                                                v-if="!$route.params.id" type="submit"
                                                 class="btn btn-primary w-md">Submit</button>
                                         <button @click.prevent="updatePodcast" v-else type="submit"
                                                 class="btn btn-primary w-md">Update</button>
@@ -151,7 +163,9 @@ export default {
                 author: '',
                 category_id: '',
                 image: null,
+                image_path: '',
                 audio: null,
+                audio_path: '',
                 description: '',
                 status: '',
             },
@@ -162,7 +176,6 @@ export default {
             imageErrorMessage: '',
             audioErrorMessage: '',
             errors: [],
-            podcast: null,
         }
     },
 
@@ -171,9 +184,11 @@ export default {
             this.validateImage(event);
             //Assign image and path to this variable
             this.form.image = event.target.files[0];
-            this.imageErrorMessage = '';
             // create base64 version display of image
-            this.imagePreview = URL.createObjectURL(event.target.files[0]);
+            if(this.imageErrorMessage === ''){
+                this.imagePreview = URL.createObjectURL(event.target.files[0]);
+            }
+
         },
 
         validateImage(event){
@@ -183,6 +198,8 @@ export default {
                 this.imageErrorMessage = 'Incorrect image format';
                 this.form.image = null;
                 return false;
+            }else{
+                this.imageErrorMessage = '';
             }
 
             if(event.target.files[0].size > 5000000){
@@ -196,9 +213,10 @@ export default {
             this.validateAudio(event);
             //Assign image and path to this variable
             this.form.audio = event.target.files[0];
-            this.audioErrorMessage = '';
             // create base64 version display of image
-            this.audioPreview = event.target.files[0].name;
+            if(this.audioErrorMessage === ''){
+                this.audioPreview = event.target.files[0].name;
+            }
         },
 
         validateAudio(event){
@@ -208,6 +226,8 @@ export default {
                 this.audioErrorMessage = 'Incorrect format';
                 this.form.audio = null;
                 return false;
+            }else{
+                this.audioErrorMessage = '';
             }
 
             if(event.target.files[0].size > 30000000){
@@ -220,20 +240,18 @@ export default {
         submitPodcast(){
             this.errors = [];
             this.formLoading();
-            let formData = new FormData();
 
+            let formData = new FormData();
             // iterate form object
             let self = this; //you need this because *this* will refer to Object.keys below`
             //Iterate through each object field, key is name of the object field`
-            Object.keys(this.form).forEach(function(key,index) {
+            Object.keys(this.form).forEach(function(key) {
                 console.log(key); // key
                 console.log(self.form[key]); // value
                 formData.append(key, self.form[key]);
             });
-
             // check entries
             console.log(...formData.entries());
-
             let config = {
                 headers: { 'content-type': 'multipart/form-data' }
             }
@@ -248,28 +266,20 @@ export default {
                         this.formError(response);
                     }
                 }).catch((error) => {
-                console.log(error);
-            });
+                    console.log(error);
+                });
         },
 
         populatePodcast(){
             axios.get('/api/admin/podcasts/'+this.$route.params.id+'/show')
                 .then((response) => {
                     if(response.data.success === true){
-                        this.podcast = response.data.podcast;
-                        // populate form object
                         let self = this; //you need this because *this* will refer to Object.keys below`
                         //Iterate through each object field, key is name of the object field`
                         Object.keys(response.data.podcast).forEach(function(key){
                             console.log(key); // key
                             console.log(response.data.podcast[key]); // value
-                            if(key === 'image'){
-                                self.form['image'] = null;
-                            }else if(key === 'audio') {
-                                self.form['audio'] = null;
-                            }else{
-                                self.form[key] = response.data.post[key];
-                            }
+                            self.form[key] = response.data.podcast[key];
                         });
                     }
                 });
@@ -356,7 +366,7 @@ export default {
             let self = this; //you need this because *this* will refer to Object.keys below`
             //Iterate through each object field, key is name of the object field`
             Object.keys(this.form).forEach(function(value) {
-                if(value === 'image'){
+                if(['image', 'audio'].includes(value)){
                     self.form[value] = null;
                 }else{
                     self.form[value] = '';
@@ -381,7 +391,7 @@ export default {
 
     mounted(){
         this.getCategories();
-        if(this.$route.params.id !== undefined){
+        if(this.$route.params.id){
             this.populatePodcast();
         }
     }

@@ -1,6 +1,14 @@
 <template>
     <div class="container">
         <div class="row">
+            <div class="col-12">
+                <router-link
+                    class="waves-effect"
+                    exact
+                    :to="{ name: 'AdminBlog'}">
+                    <button type="button" class="btn btn-primary waves-effect waves-light mb-2">Blog Posts</button>
+                </router-link>
+            </div>
             <div class="col-12 text-danger text-center">
                 <span class="" v-for="(error, index) in errors" :key="index">
                     {{ error.toString() }}<br>
@@ -9,7 +17,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 v-if="post === undefined" class="card-title mb-4">Add new post</h4>
+                        <h4 v-if="!$route.params.id" class="card-title mb-4">Add new post</h4>
                         <h4 v-else class="card-title mb-4">Update post</h4>
 
                         <form enctype="multipart/form-data">
@@ -50,14 +58,14 @@
                                        class="col-sm-3 col-form-label">Image</label>
                                 <div class="col-sm-9">
                                     <input type="file" @change="uploadImage" class="form-control" required>
-                                    <div v-if="imageErrorMessage === '' && form.image !== null">
+                                    <div v-if="form.image !== null">
                                         <img :src="imagePreview" width="100"/>
                                         <span @click="form.image = null"
                                               class="pl-1 fa fa-times text-danger"
                                               title="Remove image"></span>
                                     </div>
-                                    <img v-else-if="post !== undefined && post.image"
-                                         :src="'/'+post.image_path+'/'+post.image" width="100"/>
+                                    <img v-else-if="$route.params.id"
+                                         :src="form.image_path + form.image" width="100"/>
                                     <p v-if="imageErrorMessage !== ''" class="text-center text-danger">
                                         {{ imageErrorMessage }}
                                     </p>
@@ -90,7 +98,7 @@
                                 <div class="col-sm-auto">
                                     <div>
                                         <button @click.prevent="submitPost"
-                                                v-if="post === undefined" type="submit"
+                                                v-if="!this.$route.params.id" type="submit"
                                                 class="btn btn-primary w-md">Submit</button>
                                         <button @click.prevent="updatePost" v-else type="submit"
                                                 class="btn btn-primary w-md">Update</button>
@@ -118,9 +126,7 @@ export default {
         // Use the <ckeditor> component in this view.
         ckeditor: CKEditor.component
     },
-    props: {
-        post: [Object, null],
-    },
+
    data(){
        return {
            editor: ClassicEditor,
@@ -132,6 +138,7 @@ export default {
              author: '',
              category_id: '',
              image: null,
+             image_path: null,
              description: '',
              status: '',
            },
@@ -140,6 +147,7 @@ export default {
            validationAlert: '',
            imageErrorMessage: '',
            errors: [],
+           post: {}
        }
    },
 
@@ -177,7 +185,7 @@ export default {
             // iterate form object
             let self = this; //you need this because *this* will refer to Object.keys below`
             //Iterate through each object field, key is name of the object field`
-            Object.keys(this.form).forEach(function(key,index) {
+            Object.keys(this.form).forEach(function(key) {
                 console.log(key); // key
                 console.log(self.form[key]); // value
                 formData.append(key, self.form[key]);
@@ -205,20 +213,17 @@ export default {
         },
 
         populatePost(){
-            axios.get('/api/admin/blog/posts/'+this.post.id+'/show')
+            axios.get('/api/admin/blog/posts/'+this.$route.params.id+'/show')
                 .then((response) => {
                     if(response.data.success === true){
+                        this.post = response.data.post;
                         // populate form object
                         let self = this; //you need this because *this* will refer to Object.keys below`
                         //Iterate through each object field, key is name of the object field`
                         Object.keys(response.data.post).forEach(function(key){
                             console.log(key); // key
                             console.log(response.data.post[key]); // value
-                            if(key === 'image'){
-                                self.form['image'] = null;
-                            }else{
-                                self.form[key] = response.data.post[key];
-                            }
+                            self.form[key] = response.data.post[key];
                         });
                     }
                 });
@@ -244,7 +249,7 @@ export default {
                 headers: {'content-type': 'multipart/form-data'}
             }
 
-            axios.post('/api/admin/blog/posts/'+this.post.id+'/update', formData)
+            axios.post('/api/admin/blog/posts/'+this.$route.params.id+'/update', formData)
                 .then((response) => {
                     if(response.data.success === true){
                         this.formSuccess(response);
@@ -325,15 +330,14 @@ export default {
                 console.log(error);
             });
         },
-
     },
 
     mounted(){
         this.getCategories();
-        if(this.post !== undefined){
-            console.log(this.post);
+        if(this.$route.params.id){
             this.populatePost();
         }
+        console.log('Post object: '+this.post.title);
     }
 }
 </script>

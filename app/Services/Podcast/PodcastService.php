@@ -14,7 +14,7 @@ class PodcastService
     protected string $audioPath = 'audio/podcasts';
     protected string $imagePath = 'photos/podcasts';
 
-    protected $crud;
+    protected CrudService $crud;
     public function __construct(CrudService $crud){
         $this->crud = $crud;
     }
@@ -39,29 +39,30 @@ class PodcastService
         return $this->podcastWithRelations()->findOrFail($id);
     }
 
-    public function createPodcast($request): void
+    public function createPodcast($request)
     {
         $input = $request->all();
-        $input['image'] = $this->crud->compressAndUploadImage($request->image, $this->imagePath, 700, 500);
+        $input['image'] = $this->crud->compressAndUploadImage($request, $this->imagePath, 700, 500);
         $input['image_path'] = @config('app.app_url').$this->imagePath;
-        $input['audio'] = $this->crud->uploadAudio($request->audio, $this->audioPath);
+        $input['audio'] = $this->crud->uploadAudio($request, $this->audioPath);
         $input['audio_path'] = @config('app.app_url').$this->audioPath;
-        $this->podcast()->create($input);
+        return $this->podcast()->create($input);
     }
 
-    public function updatePodcast($request, $id){
+    public function updatePodcast($request, $id): void
+    {
         $input = $request->all();
         $podcast = $this->podcastById($id);
         Session::put('image', $podcast->image);
         Session::put('audio', $podcast->audio);
 
-        $image = $this->crud->compressAndUploadImage($request->image, $this->imagePath, 700, 500);
+        $image = $this->crud->compressAndUploadImage($request, $this->imagePath, 700, 500);
         if($image){
             $input['image'] = $image;
         }else{
             $input['image'] = $podcast->image;
         }
-        $audio = $this->crud->uploadAudio($request->audio, $this->audioPath);
+        $audio = $this->crud->uploadAudio($request, $this->audioPath);
         if($audio){
             $input['audio'] = $audio;
         }else{
