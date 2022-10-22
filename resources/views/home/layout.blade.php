@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{ asset('/assets/css/materialdesignicons.css') }}">
     <link rel="stylesheet" href="{{ asset('/assets/css/bootstrap-grid.css') }}">
     <link rel="stylesheet" href="{{ asset('/assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('/assets/css/custom.css') }}">
 
     <style id="anii-inline-style">
         .sales-box {

@@ -1,0 +1,40 @@
+#top {
+    position: relative;
+    z-index: 80;
+    background-color: #fff;
+    color: #000;
+}
+
+.featured-content .anii-mejs-container .mejs-captions-button button::before, .featured-content .anii-mejs-container .mejs-download-button a::before, .featured-content .anii-mejs-container .mejs-transcript-button a::before, .featured-content .anii-mejs-container .mejs-volume-button button::before {
+    color: #f2a43e !important;
+}
+
+a, a:hover {
+    color: #2f2e29;
+}
+
+:root {
+    --primary-color: #f2a43e;
+    --primary-alt-color: #ffffff;
+    --secondary-color: #0e2d2d;
+    --link-color: #ffbd14;
+    --border-color: #192b2b;
+    --body-background-color: #ffe5de;
+    --body-text-color: #2c1313;
+    --body-font: 'Roboto', sans-serif;
+    --headings-font: 'Poppins', serif;
+    --headings-font-weight: 600;
+    --transition-duration: 0.3s;
+}
+
+body .featured-content .anii-mejs-container .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-total, body .featured-content .anii-mejs-container .mejs-controls .mejs-time-rail, body .featured-content .anii-mejs-container .mejs-controls .mejs-time-rail .mejs-time-hovered, body .featured-content .anii-mejs-container .mejs-controls .mejs-time-rail .mejs-time-loaded, body .featured-content .anii-mejs-container .mejs-controls .mejs-time-rail .mejs-time-total {
+    background-color: rgba(255, 227, 227, 0.2) !important;
+}
+
+body .featured-content .anii-mejs-container .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-current, body .featured-content .anii-mejs-container .mejs-controls .mejs-time-rail .mejs-time-current, body .featured-content .anii-mejs-container .mejs-time-current, body .featured-content .anii-mejs-container .mejs-time-hovered {
+    background-color: #6b4646 !important;
+}
+
+.tab-container .tabs li.active a {
+    color: #c86014;
+}
