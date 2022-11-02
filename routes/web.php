@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\GithubDeploymentController;
+use App\Http\Controllers\Home\Blog\HomeBlogController;
+use App\Http\Controllers\Home\HomePageController;
+use App\Http\Controllers\Home\Podcast\HomePodcastController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -14,10 +17,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', static function () {
-    return view('home.index');
-})->name('home.index');
 
 Route::get('/author', static function () {
     return view('home.author');
@@ -36,6 +35,10 @@ Auth::routes([
     'reset' => false, // Password Reset Routes...
     'verify' => false, // Email Verification Routes...
 ]);
+
+Route::get('/', [HomePageController::class, 'homePage'])->name('home.index');
+Route::get('/blog/{id}/post', [HomeBlogController::class, 'show'])->name('blog.show');
+Route::get('/podcast/{id}/post', [HomePodcastController::class, 'show'])->name('podcast.show');
 
 // Admin Account SPA
 Route::get('/admin/{any}', static function () {

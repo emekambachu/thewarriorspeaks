@@ -13,6 +13,23 @@ class HomeBlogController extends Controller
         $this->blog = $blog;
     }
 
+    public function homePage(): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $data = $this->blog->publishedBlogPost()->latest()->limit(3)->get();
+            return response()->json([
+                'success' => true,
+                'posts' => $data,
+                'total' => $data->total(),
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
     public function index(): \Illuminate\Http\JsonResponse
     {
         try {

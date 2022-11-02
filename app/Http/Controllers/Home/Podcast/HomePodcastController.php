@@ -8,9 +8,19 @@ use Illuminate\Http\Request;
 
 class HomePodcastController extends Controller
 {
-    protected $podcast;
+    protected PodcastService $podcast;
     public function __construct(PodcastService $podcast){
         $this->podcast = $podcast;
+    }
+
+    public function homePage()
+    {
+        try {
+            $data = $this->podcast->publishedPodcasts()->latest()->limit(3)->get();
+            return view('home.index', compact('data'));
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 
     public function index(): \Illuminate\Http\JsonResponse

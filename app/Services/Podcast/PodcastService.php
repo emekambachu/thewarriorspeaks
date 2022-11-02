@@ -31,8 +31,12 @@ class PodcastService
 
     public function publishedPodcasts(): \Illuminate\Database\Eloquent\Builder
     {
-        return $this->podcastWithRelations()
-            ->where('status', 'published');
+        return $this->podcastWithRelations()->where('status', 1);
+    }
+
+    public function publishedJoinedPodcast(): \Illuminate\Database\Eloquent\Builder
+    {
+        return $this->podcastWithRelations()->where('blog_posts.status', 1);
     }
 
     public function podcastById($id){

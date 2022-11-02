@@ -1,41 +1,3 @@
-<!doctype html>
-<html lang="en" class="no-js">
-
-<head>
-    <title> @yield('title') | {{ config('app.name') }} </title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <meta name="description" content="Amazon warriors podcast and blog">
-    <meta name="keywords" content="Amazon warriors podcast and blog">
-
-    <link rel="shortcut icon" href="{{ asset('/logo.png') }}">
-
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700%7CPoppins:400,600" rel="stylesheet">
-
-    <link rel="stylesheet" href="{{ asset('/assets/css/materialdesignicons.css') }}">
-    <link rel="stylesheet" href="{{ asset('/assets/css/bootstrap-grid.css') }}">
-    <link rel="stylesheet" href="{{ asset('/assets/css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('/assets/css/custom.css') }}">
-
-    <style id="anii-inline-style">
-        .sales-box {
-            background-image: url(tmp/sample-sales-background.jpg);
-        }
-    </style>
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
-
-    @yield('top-assets')
-</head>
-<body class="home footer-sticky">
-
-@yield('top-content')
-
-<main id="content">
-    @yield('content')
-</main>
-
 <footer class="sales-box">
     <div class="container">
         <div class="row align-items-center">
@@ -112,7 +74,3 @@
 <script src="{{ asset('/assets/mediaelement/mediaelement-migrate.js') }}"></script>
 <script src="{{ asset('/assets/mediaelement/wp-mediaelement.js') }}"></script>
 <script src="{{ asset('/assets/js/mediaelement-anii.js') }}"></script>
-
-</body>
-
-</html>

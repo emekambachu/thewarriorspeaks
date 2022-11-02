@@ -33,12 +33,12 @@ class BlogPostService
 
     public function publishedBlogPost(): \Illuminate\Database\Eloquent\Builder
     {
-        return $this->blogPostWithRelations()->where('status', 'published');
+        return $this->blogPostWithRelations()->where('status', 1);
     }
 
     public function publishedJoinedBlogPost(): \Illuminate\Database\Eloquent\Builder
     {
-        return $this->blogPostWithRelations()->where('blog_posts.status', 'published');
+        return $this->blogPostWithRelations()->where('blog_posts.status', 1);
     }
 
     public function createPost($request){

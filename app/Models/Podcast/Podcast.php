@@ -20,15 +20,18 @@ class Podcast extends Model
       'description',
     ];
 
-    public function category(){
+    public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
-    public function likes(){
+    public function likes(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasMany(PodcastLike::class, 'podcast_id', 'id');
     }
 
-    public function comments(){
+    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasMany(PodcastComment::class, 'podcast_id', 'id');
     }
 }
