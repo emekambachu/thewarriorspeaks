@@ -124,10 +124,12 @@
                                             </header>
                                             <div class="entry-audio">
                                                 <div class="podcast-episode-player"
-                                                     data-episode-download="{{ $post->path.$post->podcxast }}" data-episode-download-button="Download Episode (884.3 KB)" data-episode-duration="00:43" data-episode-size="884.3 KB">
+                                                     data-episode-download="{{ $post->path.$post->podcast }}" data-episode-download-button="Download Episode (884.3 KB)" data-episode-duration="00:43" data-episode-size="884.3 KB">
                                                     <audio class="wp-audio-shortcode" preload="none">
-                                                        <source src="{{ $post->path.$post->podcxast }}" type="audio/mpeg" />
-                                                        <source src="{{ $post->path.$post->podcxast }}" type="audio/ogg" />
+                                                        <source src="{{ $post->path.$post->podcast }}"
+                                                                type="audio/mpeg" />
+                                                        <source src="{{ $post->path.$post->podcast }}"
+                                                                type="audio/ogg" />
                                                     </audio>
                                                 </div>
                                             </div>
