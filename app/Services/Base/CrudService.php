@@ -15,12 +15,12 @@ class CrudService
     public function publishItem($object): array
     {
         $message = '';
-        if($object->status === 'published'){
-            $object->status = 'pending';
+        if($object->status === 1){
+            $object->status = 0;
             $item_name = $object->name ?? $object->title;
             $message = $item_name.' is pending';
         }else{
-            $object->status = 'published';
+            $object->status = 1;
             $item_name = $object->name ?? $object->title;
             $message = $item_name.' is published';
         }
