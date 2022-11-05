@@ -91,7 +91,6 @@
                 </ContentLoader>
             </div>
 
-
             <laravel-vue-pagination v-if="!searchActive"
                                     class="justify-content-center"
                                     :limit="3"

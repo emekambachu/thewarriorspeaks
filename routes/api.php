@@ -23,18 +23,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Home Blog
-Route::get('/blog/posts', [HomeBlogController::class, 'index']);
-Route::post('/blog/search', [HomeBlogController::class, 'search']);
-Route::get('/blog/{id}/show', [HomeBlogController::class, 'show']);
+Route::get('/home/blog', [HomeBlogController::class, 'index']);
+Route::post('/home/blog/search', [HomeBlogController::class, 'search']);
+Route::get('/home/blog/{id}/show', [HomeBlogController::class, 'show']);
 
 // Home Podcast
-Route::get('/podcast', [HomePodcastController::class, 'index']);
-Route::post('/podcast/search', [HomePodcastController::class, 'search']);
-Route::get('/podcast/{id}/show', [HomePodcastController::class, 'show']);
+Route::get('/home/podcasts', [HomePodcastController::class, 'index']);
+Route::post('/home/podcasts/search', [HomePodcastController::class, 'search']);
+Route::get('/home/podcasts/{id}/show', [HomePodcastController::class, 'show']);
 
 // Home Author
-Route::get('/author/bio', [HomeAuthorController::class, 'bio']);
-Route::get('/author/social', [HomeAuthorController::class, 'social']);
+Route::get('/home/author/bio', [HomeAuthorController::class, 'bio']);
+Route::get('/home/author/social', [HomeAuthorController::class, 'social']);
 
 // Home Category
 Route::get('/categories', [HomeCategoryController::class, 'index']);

@@ -18,7 +18,7 @@ class HomePageController extends Controller
 
     public function homePage(){
         try {
-            $data['podcast'] = $this->podcast->publishedPodcasts()->latest()->limit(3)->get();
+            $data['podcasts'] = $this->podcast->publishedPodcasts()->latest()->limit(3)->get();
             $data['blog'] = $this->blog->publishedBlogPost()->latest()->limit(3)->get();
             return view('home.index', $data);
         } catch (\Exception $e) {

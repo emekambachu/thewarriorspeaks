@@ -22,10 +22,6 @@ Route::get('/author', static function () {
     return view('home.author');
 })->name('home.author');
 
-Route::get('/podcast', static function () {
-    return view('home.podcast.index');
-})->name('home.podcast');
-
 Route::get('/blog', static function () {
     return view('home.blog.index');
 })->name('home.blog');
@@ -37,8 +33,12 @@ Auth::routes([
 ]);
 
 Route::get('/', [HomePageController::class, 'homePage'])->name('home.index');
-Route::get('/blog/{id}/post', [HomeBlogController::class, 'show'])->name('blog.show');
-Route::get('/podcast/{id}/post', [HomePodcastController::class, 'show'])->name('podcast.show');
+
+Route::get('/blog', [HomeBlogController::class, 'index'])->name('home.blog.index');
+Route::get('/blog/{id}/post', [HomeBlogController::class, 'show'])->name('home.blog.show');
+
+Route::get('/podcast', [HomePodcastController::class, 'index'])->name('home.podcast.index');
+Route::get('/podcast/{id}/post', [HomePodcastController::class, 'show'])->name('home.podcast.show');
 
 // Admin Account SPA
 Route::get('/admin/{any}', static function () {

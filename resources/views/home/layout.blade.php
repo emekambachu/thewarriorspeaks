@@ -3,6 +3,13 @@
 
 <head>
     <title> @yield('title') | {{ config('app.name') }} </title>
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script>
+        window.Laravel = { csrfToken: '{{ csrf_token() }}' };
+    </script>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -20,7 +27,7 @@
 
     <style id="anii-inline-style">
         .sales-box {
-            background-image: url(tmp/sample-sales-background.jpg);
+            background-image: url({{ asset('/tmp/sample-sales-background.jpg') }});
         }
     </style>
 
@@ -28,30 +35,13 @@
 
     @yield('top-assets')
 </head>
-<body class="home footer-sticky">
+<body class="home footer-sticky expand-featured-media">
 
-@yield('top-content')
+@yield('header')
 
 <main id="content">
     @yield('content')
 </main>
-
-<footer class="sales-box">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-12 col-md-6">
-                <a href="#" class="cover-image">
-                    <img src="tmp/sample-sales-cover.jpg" alt="">
-                </a>
-            </div>
-            <div class="col-12 col-md-6">
-                <h3>New Stuff Each Week!</h3>
-                <p>Listen below and order your copy from Amazon, iTunes or your favorite record store. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia conseqa untur magni dolores eos qui ratione sequi.</p>
-                <p><a href="#" class="button button-filled button-color button-small"><span class="mdi mdi-amazon"></span> Amazon</a> <a href="#" class="button button-filled button-color button-small"><span class="mdi mdi-apple"></span> iTunes</a> <a href="#" class="button button-filled button-color button-small"><span class="mdi mdi-spotify"></span> Spotify</a></p>
-            </div>
-        </div>
-    </div>
-</footer>
 
 <footer id="footer">
     <div class="container">
@@ -105,9 +95,12 @@
 <script src="{{ asset('/assets/js/functions.js') }}"></script>
 
 <!-- MediaElement.js files -->
-<link rel="stylesheet" id="mediaelement-css" href="{{ asset('/assets/mediaelement/mediaelementplayer-legacy.css') }}">
-<link rel="stylesheet" id="wp-mediaelement-css" href="{{ asset('/assets/mediaelement/wp-mediaelement.css') }}">
-<link rel="stylesheet" id="anii-additional-mediaelement-css" href="{{ asset('/assets/css/mediaelement-anii.css') }}">
+<link rel="stylesheet" id="mediaelement-css"
+      href="{{ asset('/assets/mediaelement/mediaelementplayer-legacy.css') }}">
+<link rel="stylesheet" id="wp-mediaelement-css"
+      href="{{ asset('/assets/mediaelement/wp-mediaelement.css') }}">
+<link rel="stylesheet" id="anii-additional-mediaelement-css"
+      href="{{ asset('/assets/css/mediaelement-anii.css') }}">
 <script src="{{ asset('/assets/mediaelement/mediaelement-and-player.js') }}"></script>
 <script src="{{ asset('/assets/mediaelement/mediaelement-migrate.js') }}"></script>
 <script src="{{ asset('/assets/mediaelement/wp-mediaelement.js') }}"></script>

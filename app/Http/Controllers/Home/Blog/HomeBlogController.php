@@ -30,36 +30,25 @@ class HomeBlogController extends Controller
         }
     }
 
-    public function index(): \Illuminate\Http\JsonResponse
+    public function index()
     {
         try {
-            $data = $this->blog->publishedBlogPost()->latest()->paginate(12);
-            return response()->json([
-                'success' => true,
-                'posts' => $data,
-                'total' => $data->total(),
-            ]);
+            $data['blog'] = $this->blog->publishedBlogPost()->latest()->paginate(12);
+            return view('home.blog.index', $data);
+
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage(),
-            ]);
+            return $e->getMessage();
         }
     }
 
-    public function show($id): \Illuminate\Http\JsonResponse
+    public function show($id)
     {
         try {
-            $data = $this->blog->blogPostById($id);
-            return response()->json([
-                'success' => true,
-                'post' => $data,
-            ]);
+            $data['post'] = $this->blog->blogPostById($id);
+            return view('home.blog.show', $data);
+
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage(),
-            ]);
+            return $e->getMessage();
         }
     }
 

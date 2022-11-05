@@ -23,31 +23,23 @@ class HomePodcastController extends Controller
         }
     }
 
-    public function index(): \Illuminate\Http\JsonResponse
+    public function index()
     {
         try {
-            $data = $this->podcast->publishedPodcasts()->latest()->paginate(12);
-            return response()->json([
-                'success' => true,
-                'podcasts' => $data,
-                'total' => $data->total(),
-            ]);
+            $data['podcasts'] = $this->podcast->publishedPodcasts()
+                ->latest()->paginate(12);
+            return view('home.podcast.index', $data);
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage(),
-            ]);
+            return $e->getMessage();
         }
     }
 
-    public function show($id): \Illuminate\Http\JsonResponse
+    public function show($id)
     {
         try {
             $data = $this->podcast->podcastById($id);
-            return response()->json([
-                'success' => true,
-                'podcast' => $data,
-            ]);
+            return view('home.podcast.show', $data);
+
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,

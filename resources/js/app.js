@@ -28,7 +28,8 @@ window.Swal = Swal;
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 // Home
-
+import HomePodcast from "./components/home/podcast/HomePodcast";
+import HomeBlog from "./components/home/blog/HomeBlogPost";
 
 // Home Admin Login
 import AdminLogin from "./components/auth/AdminLogin";
@@ -52,6 +53,9 @@ import AdminAuthorForm from './components/admin/author/AdminAuthorForm';
 createApp({
     components: {
         AdminLogin,
+
+        HomePodcast,
+        HomeBlog,
 
         NotFound,
 
