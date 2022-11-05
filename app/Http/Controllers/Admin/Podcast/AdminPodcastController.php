@@ -13,7 +13,7 @@ class AdminPodcastController extends Controller
     protected $podcast;
     public function __construct(PodcastService $podcast){
         $this->podcast = $podcast;
-        $this->middleware('auth:web');
+//        $this->middleware('auth:web');
     }
 
     public function recentPodcast($limit): \Illuminate\Http\JsonResponse

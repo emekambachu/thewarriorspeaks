@@ -13,7 +13,7 @@ class AdminBlogController extends Controller
     protected BlogPostService $blog;
     public function __construct(BlogPostService $blog){
         $this->blog = $blog;
-        $this->middleware('auth:web');
+//        $this->middleware('auth:web');
     }
 
     public function recentPosts($limit){
