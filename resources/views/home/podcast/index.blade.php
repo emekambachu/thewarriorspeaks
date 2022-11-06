@@ -56,7 +56,7 @@
                             <div class="row align-items-lg-center">
                                 <div class="col-12 col-lg-4">
                                     <div class="entry-media">
-                                        <a href="/{{ route('home.podcast.show', $podcast->id) }}">
+                                        <a href="{{ route('home.podcast.show', $podcast->id) }}">
                                             <img src="{{ $podcast->image_path.$podcast->image }}"
                                                  alt="" width="480" height="480">
                                         </a>
@@ -77,23 +77,23 @@
                                             </span>
                                         </div>
                                         <h2 class="entry-title">
-                                            <a href="" rel="bookmark">
-                                                Visiting my best friend's city for the first time</a>
+                                            <a href="{{ route('home.podcast.show', $podcast->id) }}" rel="bookmark">
+                                                {{ $podcast->title }}</a>
                                         </h2>
                                     </header>
                                     <div class="entry-audio">
                                         <!-- audio tag starts here -->
                                         <audio controls autoplay style="width: 100%;">
-                                            <source src="/{{ $podcast->audio_path.$podcast->audio }}"
+                                            <source src="{{ $podcast->audio_path.$podcast->audio }}"
                                                     type="audio/mp3">
-                                            <source src="/{{ $podcast->audio_path.$podcast->audio }}"
+                                            <source src="{{ $podcast->audio_path.$podcast->audio }}"
                                                     type="audio/ogg">
-                                            <source src="/{{ $podcast->audio_path.$podcast->audio }}"
+                                            <source src="{{ $podcast->audio_path.$podcast->audio }}"
                                                     type="audio/ogg">
                                         </audio>
                                     </div>
                                     <div class="entry-content">
-                                        <p>{{ $podcast->description }}</p>
+                                        <p>{!! Str::limit($podcast->description, 100, '...') !!}</p>
                                     </div>
                                 </div>
                             </div>

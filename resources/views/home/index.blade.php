@@ -58,8 +58,13 @@
                 <div class="col-12">
                     <div class="tab-container">
                         <ul class="tabs">
-                            <li class="active"><a href="#tab-episodes"><span class="d-none d-md-inline-block">Podcast</span> Episodes</a></li>
-                            <li><a href="#tab-news"><span class="d-none d-md-inline-block">Blog</span> Posts</a></li>
+                            <li class="active">
+                                <a href="#tab-episodes">
+                                    <span class="d-none d-md-inline-block">Podcast</span> Episodes</a>
+                            </li>
+                            <li><a href="#tab-news">
+                                    <span class="d-none d-md-inline-block">Blog</span> Posts</a>
+                            </li>
                         </ul>
                         <div id="tab-episodes" class="tab-content active">
                             <div class="episodes-listing">
@@ -87,7 +92,8 @@
                                                     <span class="posted-on">
                                                         <span class="screen-reader-text">Posted on</span>
                                                         <a href="" rel="bookmark">
-                                                        <time datetime="{{ $podcast->created_at }}" class="entry-date published">
+                                                        <time datetime="{{ $podcast->created_at }}"
+                                                              class="entry-date published">
                                                             {{ $podcast->created_at }}
                                                         </time>
                                                         </a>
@@ -110,7 +116,7 @@
                                                 </audio>
                                             </div>
                                             <div class="entry-content">
-                                                <p>{{ $podcast->description }}</p>
+                                                <p>{!! Str::limit($podcast->description, 100) !!}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -118,7 +124,8 @@
                                 @endforeach
                                 <div class="pagination pagination-load-more">
                                     <a href="{{ route('home.podcast.index') }}" class="button">
-                                        <span class="mdi mdi-dots-horizontal"></span> Browse More <span class="d-none d-md-inline-block">Episodes</span></a>
+                                        <span class="mdi mdi-dots-horizontal"></span>
+                                        Browse More <span class="d-none d-md-inline-block">Episodes</span></a>
                                 </div>
                             </div>
                         </div>
@@ -144,7 +151,7 @@
                                                             {{ $post->title }}</a></h2>
                                                 </header>
                                                 <div class="entry-content">
-                                                    <p>{{ $post->description }}</p>
+                                                    <p>{!! Str::limit($post->description, 100) !!}</p>
                                                     <a href="{{ route('home.blog.show', $post->id) }}"
                                                        class="read-more line-link">Read more</a>
                                                 </div>
@@ -154,7 +161,8 @@
                                 </div>
                                 <div class="pagination pagination-load-more">
                                     <a href="{{ route('home.podcast.index') }}" class="button">
-                                        <span class="mdi mdi-dots-horizontal"></span> Browse More <span class="d-none d-md-inline-block">Posts</span></a>
+                                        <span class="mdi mdi-dots-horizontal"></span>
+                                        Browse More <span class="d-none d-md-inline-block">Posts</span></a>
                                 </div>
                             </div>
                         </div>

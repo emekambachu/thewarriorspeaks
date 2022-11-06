@@ -72,7 +72,7 @@
                                         </h2>
                                     </header>
                                     <div class="entry-content">
-                                        <p>{{ $post->description }}</p>
+                                        <p>{!! Str::limit($post->description, 100, '...') !!}</p>
                                         <a href="{{ route('home.blog.show', $post->id) }}"
                                            class="read-more line-link">Read more</a>
                                     </div>
