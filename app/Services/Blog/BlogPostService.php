@@ -47,6 +47,11 @@ class BlogPostService
             $input['image'] = $this->crud->compressAndUploadImage($request, $this->imagePath, 700, 500);
             $input['image_path'] = config('app.url').$this->imagePath.'/';
         }
+        if($input['status'] === 'publish' ){
+            $input['status'] = 1;
+        }else{
+            $input['status'] = 0;
+        }
         return $this->blogPost()->create($input);
     }
 
@@ -55,6 +60,13 @@ class BlogPostService
         $post = $this->blogPostById($id);
         if(!empty($input['image'])){
             $input['image'] = $this->crud->compressAndUploadImage($request, $this->imagePath, 700, 500);
+        }else{
+            unset($input['image']);
+        }
+        if($input['status'] === 'publish'){
+            $input['status'] = 1;
+        }else{
+            $input['status'] = 0;
         }
         $post->update($input);
         return $post;

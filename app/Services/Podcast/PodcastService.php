@@ -46,10 +46,17 @@ class PodcastService
     public function createPodcast($request)
     {
         $input = $request->all();
+
         $input['image'] = $this->crud->compressAndUploadImage($request, $this->imagePath, 700, 500);
         $input['image_path'] = @config('app.url').$this->imagePath.'/';
         $input['audio'] = $this->crud->uploadAudio($request, $this->audioPath);
         $input['audio_path'] = @config('app.url').$this->audioPath.'/';
+
+        if($input['status'] === 'publish' ){
+            $input['status'] = 1;
+        }else{
+            $input['status'] = 0;
+        }
         return $this->podcast()->create($input);
     }
 
@@ -71,6 +78,11 @@ class PodcastService
             $input['audio'] = $audio;
         }else{
             $input['audio'] = $podcast->audio;
+        }
+        if($input['status'] === 'publish'){
+            $input['status'] = 1;
+        }else{
+            $input['status'] = 0;
         }
         $podcast->update($input);
 

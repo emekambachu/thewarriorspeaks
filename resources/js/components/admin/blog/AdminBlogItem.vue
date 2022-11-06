@@ -9,11 +9,10 @@
             <img width="70" :src="post.image_path + post.image"/>
         </td>
         <td>
-            <span v-if="post.status === 'published'"
-                  class="badge badge-pill badge-soft-success font-size-11">
-                {{ post.status }}</span>
-            <span v-else class="badge badge-pill badge-soft-success font-size-11">
-                {{ post.status }}</span>
+            <span v-if="post.status === 1"
+                  class="badge badge-pill badge-soft-success font-size-11">Published</span>
+            <span v-else
+                  class="badge badge-pill badge-soft-success font-size-11">Pending</span>
         </td>
         <td>
             <router-link :to="{ name: 'AdminBlogEdit', params: {id: post.id}}">

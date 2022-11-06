@@ -9,10 +9,10 @@
             <img width="70" :src="podcast.image_path + podcast.image"/>
         </td>
         <td>
-            <span v-if="podcast.status === 'published'"
-                  class="badge badge-pill badge-soft-success font-size-11">
-                {{ podcast.status }}</span>
-            <span v-else class="badge badge-pill badge-soft-success font-size-11">{{ podcast.status }}</span>
+            <span v-if="podcast.status === 1"
+                  class="badge badge-pill badge-soft-success font-size-11">Published</span>
+            <span v-else
+                  class="badge badge-pill badge-soft-success font-size-11">Draft</span>
         </td>
         <td>
             <router-link

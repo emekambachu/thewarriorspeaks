@@ -111,8 +111,8 @@
                                 <div class="col-sm-9">
                                     <select v-model="form.status" class="form-select">
                                         <option selected="" value="">Choose...</option>
-                                        <option value="published">Publish</option>
-                                        <option value="pending">Draft</option>
+                                        <option value="publish">Publish</option>
+                                        <option value="draft">Draft</option>
                                     </select>
                                 </div>
                             </div>
