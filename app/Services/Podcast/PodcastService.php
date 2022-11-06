@@ -47,9 +47,9 @@ class PodcastService
     {
         $input = $request->all();
         $input['image'] = $this->crud->compressAndUploadImage($request, $this->imagePath, 700, 500);
-        $input['image_path'] = @config('app.app_url').$this->imagePath.'/';
+        $input['image_path'] = @config('app.url').$this->imagePath.'/';
         $input['audio'] = $this->crud->uploadAudio($request, $this->audioPath);
-        $input['audio_path'] = @config('app.app_url').$this->audioPath.'/';
+        $input['audio_path'] = @config('app.url').$this->audioPath.'/';
         return $this->podcast()->create($input);
     }
 
