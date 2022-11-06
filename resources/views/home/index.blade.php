@@ -101,11 +101,11 @@
                                             <div class="entry-audio">
                                                 <!-- audio tag starts here -->
                                                 <audio controls autoplay style="width: 100%;">
-                                                    <source src="/{{ $podcast->audio_path.$podcast->audio }}"
+                                                    <source src="{{ $podcast->audio_path.$podcast->audio }}"
                                                             type="audio/mp3">
-                                                    <source src="/{{ $podcast->audio_path.$podcast->audio }}"
+                                                    <source src="{{ $podcast->audio_path.$podcast->audio }}"
                                                             type="audio/ogg">
-                                                    <source src="/{{ $podcast->audio_path.$podcast->audio }}"
+                                                    <source src="{{ $podcast->audio_path.$podcast->audio }}"
                                                             type="audio/ogg">
                                                 </audio>
                                             </div>
